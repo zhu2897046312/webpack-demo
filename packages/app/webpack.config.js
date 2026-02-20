@@ -35,5 +35,6 @@ module.exports = {
   devServer: {
     static: path.join(__dirname, 'public'),
     port: 3000,
+    open: '/index.html',
   },
 };

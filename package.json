@@ -17,7 +17,10 @@
     "test:check:5": "bash scripts/check.sh 5",
     "test:check:6": "bash scripts/check.sh 6",
     "test:check:7": "bash scripts/check.sh 7",
-    "test:check:all": "bash scripts/check.sh all"
+    "test:check:7:node": "node scripts/check.js 7",
+    "test:check:all": "bash scripts/check.sh all",
+    "verify:build": "pnpm -r run build",
+    "verify:start": "pnpm --filter @monorepo/app run start"
   },
   "keywords": ["monorepo", "webpack", "sdk"],
   "author": "",

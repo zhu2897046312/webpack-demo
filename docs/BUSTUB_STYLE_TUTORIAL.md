@@ -329,9 +329,11 @@ pnpm test:check 3:all   # 或: bash scripts/check.sh 3:all
 #### 任务清单
 
 1. 执行 `pnpm -r run build` 成功
-2. 执行 `pnpm --filter @monorepo/app run start`，开发服务器能在 3–5 秒内启动
-3. 在浏览器访问对应端口，页面或控制台无致命错误
+2. 执行 `pnpm --filter @monorepo/app run start`（或根目录 `pnpm run dev`），开发服务器能在 3–5 秒内启动
+3. 在浏览器访问 http://localhost:3000/index.html，页面或控制台无致命错误
 4. （可选）热更新正常
+
+**通过检测**：若在 WSL 下 `pnpm test:check 7` 因环境失败，可在项目根执行 **`pnpm run test:check:7:node`**（Node 版检测）验证 P7-1、P7-3；P7-2 需手动执行 `pnpm run verify:start` 验证开发服务器。
 
 #### 检测目标
 
