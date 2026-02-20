@@ -15,8 +15,18 @@ if [ -f packages/sdk/package.json ]; then
   fi
 fi
 
-# P6-2
-pnpm --filter @monorepo/sdk run build >/dev/null 2>&1 || DETAILS+=("P6-2: pnpm --filter @monorepo/sdk run build 应成功")
+# P6-2 / P6-5: sdk build 成功且在 60 秒内完成（构建速度）
+if command -v timeout >/dev/null 2>&1; then
+  timeout 60 pnpm --filter @monorepo/sdk run build >/dev/null 2>&1
+  EXIT=$?
+  if [ "$EXIT" -eq 124 ]; then
+    DETAILS+=("P6-5: SDK 默认构建应在 60 秒内完成（构建速度未达标）")
+  elif [ "$EXIT" -ne 0 ]; then
+    DETAILS+=("P6-2: pnpm --filter @monorepo/sdk run build 应成功")
+  fi
+else
+  pnpm --filter @monorepo/sdk run build >/dev/null 2>&1 || DETAILS+=("P6-2: pnpm --filter @monorepo/sdk run build 应成功")
+fi
 
 # P6-3
 if [ ! -f packages/sdk/dist/index.js ]; then

@@ -80,6 +80,7 @@ function runCommandCapture(command, options = {}) {
       stdout: e.stdout || '',
       stderr: e.stderr || e.message || '',
       code: e.status ?? e.code,
+      signal: e.signal,
     };
   }
 }

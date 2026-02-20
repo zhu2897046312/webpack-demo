@@ -24,7 +24,7 @@ Project 2: SDK tsconfig paths       → 检测：paths 配置与类型解析
 Project 3: App 包结构与 Webpack     → 检测：App 构建成功、引用 SDK
 Project 4: App tsconfig references  → 检测：references 配置与增量构建
 Project 5: TypeScriptAliasPlugin    → 检测：$component-a 短路径可解析
-Project 6: SDK 构建工具替换         → 检测：Rollup/tsup 构建产物正确
+Project 6: SDK 构建工具替换         → 检测：Babel/Rollup 构建产物正确，检测构建速度是否有提升
 Project 7: 端到端验收               → 检测：build + start 全流程通过
 ```
 
@@ -287,17 +287,18 @@ pnpm test:check 3:all   # 或: bash scripts/check.sh 3:all
 
 #### 学习目标
 
-- 能够使用 Rollup 或 tsup 构建 SDK
-- 理解 ESM/CommonJS 双格式输出
+- 能够使用 Babel（默认）或 Rollup/tsup 构建 SDK
+- 理解默认构建与 Rollup 的对比（构建速度、产物差异）
 - 理解 `exports` 与构建产物的对应关系
 
 #### 任务清单
 
-1. 为 `packages/sdk` 配置 Rollup 或 tsup
-2. 配置输出：`dist/index.js`、`dist/index.d.ts`，以及 component-a、component-b 的产物
-3. 更新 `packages/sdk/package.json` 的 `exports`，使 `require` 指向 `dist/` 下的产物
-4. 执行 `pnpm --filter @monorepo/sdk run build` 成功
-5. `packages/app` 的 build 仍然成功（引用 dist 或源码均可）
+1. 为 `packages/sdk` 配置默认构建（本 demo 使用 **Babel** 转译 + `tsc --emitDeclarationOnly` 产出类型）
+2. 可选：保留 **Rollup**（`build:rollup`）用于与默认构建对比构建速度
+3. 配置输出：`dist/index.js`、`dist/index.d.ts`，以及 component-a、component-b 的产物
+4. 更新 `packages/sdk/package.json` 的 `exports`，使 `require` 指向 `dist/` 下的产物
+5. 执行 `pnpm --filter @monorepo/sdk run build` 成功，且在合理时间内完成（构建速度有保障）
+6. `packages/app` 的 build 仍然成功（引用 dist 或源码均可）
 
 #### 检测目标
 
@@ -307,14 +308,16 @@ pnpm test:check 3:all   # 或: bash scripts/check.sh 3:all
 | P6-2 | 执行 `pnpm --filter @monorepo/sdk run build` 退出码为 0 |
 | P6-3 | `packages/sdk/dist` 下存在 `index.js` 或等价产物 |
 | P6-4 | 执行 `pnpm --filter @monorepo/app run build` 仍成功 |
+| P6-5 | 默认 SDK 构建在限定时间内完成（检测构建速度是否有提升，避免过慢） |
 
 #### 测试脚本设计
 
-- 脚本路径：`scripts/check-project-6.js`
+- 脚本路径：`scripts/check-project-6.sh` / `scripts/check-project-6.js`
 - 检测逻辑：
   1. 检查 sdk 的 build 脚本内容（非 echo）
-  2. 执行 sdk build，检查 dist 目录
-  3. 执行 app build，检查退出码
+  2. 执行 sdk build（可计时），检查退出码与 dist 目录
+  3. 若超时（如 60 秒）则判为未通过，视为构建速度未达标
+  4. 执行 app build，检查退出码
 
 ---
 
@@ -421,7 +424,7 @@ pnpm test:check 3:all
 | Project 3 | 1 天 | Webpack + ts-loader 配置 |
 | Project 4 | 0.5 天 | references 配置 |
 | Project 5 | 2–3 天 | 插件开发，难度最高 |
-| Project 6 | 1–2 天 | Rollup/tsup 选型与配置 |
+| Project 6 | 1–2 天 | Babel/Rollup 构建与速度对比 |
 | Project 7 | 0.5 天 | 联调与验收 |
 
 ---
@@ -446,5 +449,5 @@ pnpm test:check 3:all
 - [ ] Project 3：`pnpm --filter @monorepo/app run build` 成功，dist 有产物
 - [ ] Project 4：`packages/app/tsconfig.json` 有 references，`tsc -b` 或 `--noEmit` 通过
 - [ ] Project 5：`import from '$component-a'` 可用，build 成功
-- [ ] Project 6：sdk build 产生 dist，app build 仍成功
+- [ ] Project 6：sdk build 产生 dist，app build 仍成功，默认构建在限定时间内完成（构建速度）
 - [ ] Project 7：`pnpm -r run build` 成功，`pnpm --filter @monorepo/app run start` 可启动

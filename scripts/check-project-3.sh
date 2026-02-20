@@ -10,12 +10,14 @@ if [ ! -f packages/app/webpack.config.js ]; then
   DETAILS+=("P3-1: 缺少 packages/app/webpack.config.js")
 fi
 
-# P3-2
+# P3-2：引用 SDK（直接 @monorepo/sdk 或短路径 $component-a / $component-b）
 if [ ! -f packages/app/src/index.ts ]; then
   DETAILS+=("P3-2: 缺少 packages/app/src/index.ts")
 else
-  if ! grep -q '@monorepo/sdk' packages/app/src/index.ts; then
-    DETAILS+=("P3-2: src/index.ts 应包含对 @monorepo/sdk 的 import")
+  if ! grep -q '@monorepo/sdk' packages/app/src/index.ts && \
+     ! grep -q '\$component-a' packages/app/src/index.ts && \
+     ! grep -q '\$component-b' packages/app/src/index.ts; then
+    DETAILS+=("P3-2: src/index.ts 应包含对 @monorepo/sdk 的 import 或短路径 \$component-a / \$component-b")
   fi
 fi
 

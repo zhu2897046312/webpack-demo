@@ -22,6 +22,8 @@
 2. **更换引用方式**：从复杂的 alias 改为 `package.json exports` + `tsconfig references`
 3. **更换 SDK 构建工具**：从 Rollup 迁移到更快的构建方案（如 tsup/Gulp/自定义工具）
 
+**本 demo 的对应实现**：详见 [PROJECT_STATUS.md](./PROJECT_STATUS.md)。SDK 默认使用 **Babel** 构建（快），`build:rollup` 用于与 Babel 对比构建速度。
+
 ---
 
 ## 二、Alias 模块化示例

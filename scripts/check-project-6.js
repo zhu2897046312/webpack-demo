@@ -13,9 +13,14 @@ function run() {
     }
   }
 
-  const sdkBuildResult = runCommandCapture('pnpm --filter @monorepo/sdk run build', { silent: true, timeout: 60000 });
+  const SDK_BUILD_TIMEOUT_MS = 60000;
+  const sdkBuildResult = runCommandCapture('pnpm --filter @monorepo/sdk run build', { silent: true, timeout: SDK_BUILD_TIMEOUT_MS });
   if (!sdkBuildResult.ok) {
-    details.push('P6-2: pnpm --filter @monorepo/sdk run build 应成功');
+    if (sdkBuildResult.signal === 'SIGTERM') {
+      details.push(`P6-5: SDK 默认构建应在 ${SDK_BUILD_TIMEOUT_MS / 1000} 秒内完成（构建速度未达标）`);
+    } else {
+      details.push('P6-2: pnpm --filter @monorepo/sdk run build 应成功');
+    }
   }
 
   const distIndex = resolveRoot('packages/sdk/dist/index.js');

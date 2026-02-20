@@ -10,8 +10,13 @@ function run() {
   const indexContent = readFile('packages/app/src/index.ts');
   if (!fileExists(resolveRoot('packages/app/src/index.ts'))) {
     details.push('P3-2: 缺少 packages/app/src/index.ts');
-  } else if (!indexContent.includes('@monorepo/sdk')) {
-    details.push('P3-2: src/index.ts 应包含对 @monorepo/sdk 的 import');
+  } else {
+    const hasSdkRef = indexContent.includes('@monorepo/sdk') ||
+      indexContent.includes('$component-a') ||
+      indexContent.includes('$component-b');
+    if (!hasSdkRef) {
+      details.push('P3-2: src/index.ts 应包含对 @monorepo/sdk 的 import 或短路径 $component-a / $component-b');
+    }
   }
 
   const appPkg = readJson('packages/app/package.json');
