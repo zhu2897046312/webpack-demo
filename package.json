@@ -1,0 +1,29 @@
+{
+  "name": "webpack-demo-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo 工程化需求模拟项目",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "build:sdk": "pnpm --filter @monorepo/sdk run build",
+    "build:app": "pnpm --filter @monorepo/app run build",
+    "dev": "pnpm --filter @monorepo/app run start",
+    "test:check": "bash scripts/check.sh",
+    "test:check:0": "bash scripts/check.sh 0",
+    "test:check:1": "bash scripts/check.sh 1",
+    "test:check:2": "bash scripts/check.sh 2",
+    "test:check:3": "bash scripts/check.sh 3",
+    "test:check:4": "bash scripts/check.sh 4",
+    "test:check:5": "bash scripts/check.sh 5",
+    "test:check:6": "bash scripts/check.sh 6",
+    "test:check:7": "bash scripts/check.sh 7",
+    "test:check:all": "bash scripts/check.sh all"
+  },
+  "keywords": ["monorepo", "webpack", "sdk"],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

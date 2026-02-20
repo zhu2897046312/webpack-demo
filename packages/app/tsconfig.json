@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@sdk/*": ["../sdk/src/*"],
+      "$component-a": ["../sdk/src/modules/ui/component-a/index"],
+      "$component-a/*": ["../sdk/src/modules/ui/component-a/*"],
+      "$component-b": ["../sdk/src/modules/ui/component-b/index"],
+      "$component-b/*": ["../sdk/src/modules/ui/component-b/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "references": [{ "path": "../sdk" }]
+}

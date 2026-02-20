@@ -1,0 +1,31 @@
+{
+  "name": "@monorepo/sdk",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./component-a": {
+      "import": "./src/modules/ui/component-a/index.ts",
+      "require": "./dist/modules/ui/component-a/index.js",
+      "default": "./dist/modules/ui/component-a/index.js"
+    },
+    "./component-b": {
+      "import": "./src/modules/ui/component-b/index.ts",
+      "require": "./dist/modules/ui/component-b/index.js",
+      "default": "./dist/modules/ui/component-b/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "echo \"SDK dev placeholder\""
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

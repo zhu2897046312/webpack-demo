@@ -1,0 +1,2 @@
+# Shell 脚本统一使用 LF，避免在 Windows 下出现 \r 导致执行失败
+*.sh text eol=lf
