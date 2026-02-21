@@ -61,6 +61,7 @@ webpack-demo/
 
 ## 四、相关文档
 
+- **技术方案设计**：[TECHNICAL_DESIGN.md](./TECHNICAL_DESIGN.md)（整体技术实现方案，独立设计文档）
 - 需求与方案细节：[REQUIREMENTS.md](./REQUIREMENTS.md)
 - 分步教程与检测：[BUSTUB_STYLE_TUTORIAL.md](./BUSTUB_STYLE_TUTORIAL.md)
 - 学习路线：[LEARNING_PATH.md](./LEARNING_PATH.md)
