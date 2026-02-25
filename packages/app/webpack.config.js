@@ -1,8 +1,10 @@
 const path = require('path');
+const webpack = require('webpack');
 const { TypeScriptAliasPlugin } = require('../../plugins/typescript-alias-plugin');
 
 const monorepoRoot = path.resolve(__dirname, '../..');
-const alias = TypeScriptAliasPlugin.getAlias({ rootPath: monorepoRoot });
+const sourceMode = process.env.USE_SOURCE_ALIAS !== 'false';
+const alias = TypeScriptAliasPlugin.getAlias({ rootPath: monorepoRoot, sourceMode });
 
 module.exports = {
   entry: './src/index.ts',
@@ -15,7 +17,10 @@ module.exports = {
     alias,
   },
   plugins: [
-    new TypeScriptAliasPlugin({ rootPath: monorepoRoot }),
+    new TypeScriptAliasPlugin({ rootPath: monorepoRoot, sourceMode }),
+    new webpack.DefinePlugin({
+      __ALIAS_SOURCE_MODE__: JSON.stringify(sourceMode),
+    }),
   ],
   module: {
     rules: [
