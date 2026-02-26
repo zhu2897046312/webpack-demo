@@ -8,7 +8,15 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "$component-a": ["packages/sdk/src/modules/ui/component-a/index"],
+      "$component-a/*": ["packages/sdk/src/modules/ui/component-a/*"],
+      "$component-b": ["packages/sdk/src/modules/ui/component-b/index"],
+      "$component-b/*": ["packages/sdk/src/modules/ui/component-b/*"],
+      "@sdk/*": ["packages/sdk/src/*"]
+    }
   },
   "exclude": ["node_modules", "dist"]
 }
