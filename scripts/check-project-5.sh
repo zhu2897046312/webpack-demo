@@ -5,14 +5,16 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 DETAILS=()
 
-# P5-1
-if [ ! -f plugins/typescript-alias-plugin/index.js ] && [ ! -f packages/app/plugins/typescript-alias-plugin/index.js ]; then
-  DETAILS+=("P5-1: 应存在 plugins/typescript-alias-plugin/index.js 或等价插件文件")
+# P5-1: 认可插件源码 index.ts 或编译产物
+if [ ! -f plugins/typescript-alias-plugin/index.ts ] && [ ! -f plugins/typescript-alias-plugin/dist/index.js ] && [ ! -f plugins/typescript-alias-plugin/index.js ] && [ ! -f packages/app/plugins/typescript-alias-plugin/index.js ]; then
+  DETAILS+=("P5-1: 应存在 plugins/typescript-alias-plugin/index.ts（源码）或等价插件文件")
 fi
 
 # P5-2 P5-3: 若有插件文件则检查内容
 PLUGIN_FILE=""
-[ -f plugins/typescript-alias-plugin/index.js ] && PLUGIN_FILE="plugins/typescript-alias-plugin/index.js"
+[ -f plugins/typescript-alias-plugin/index.ts ] && PLUGIN_FILE="plugins/typescript-alias-plugin/index.ts"
+[ -z "$PLUGIN_FILE" ] && [ -f plugins/typescript-alias-plugin/dist/index.js ] && PLUGIN_FILE="plugins/typescript-alias-plugin/dist/index.js"
+[ -z "$PLUGIN_FILE" ] && [ -f plugins/typescript-alias-plugin/index.js ] && PLUGIN_FILE="plugins/typescript-alias-plugin/index.js"
 [ -z "$PLUGIN_FILE" ] && [ -f packages/app/plugins/typescript-alias-plugin/index.js ] && PLUGIN_FILE="packages/app/plugins/typescript-alias-plugin/index.js"
 if [ -n "$PLUGIN_FILE" ]; then
   if ! grep -qE 'TypeScriptAliasPlugin|typescriptAliasPlugin' "$PLUGIN_FILE"; then
@@ -20,8 +22,10 @@ if [ -n "$PLUGIN_FILE" ]; then
   fi
 fi
 
-if ! grep -qE 'TypeScriptAliasPlugin|typescript-alias-plugin|typescriptAliasPlugin' packages/app/webpack.config.js 2>/dev/null; then
-  DETAILS+=("P5-3: webpack.config.js 应使用该插件")
+WEBPACK_CFG="packages/app/webpack.config.ts"
+[ ! -f "$WEBPACK_CFG" ] && WEBPACK_CFG="packages/app/webpack.config.js"
+if ! grep -qE 'TypeScriptAliasPlugin|typescript-alias-plugin|typescriptAliasPlugin' "$WEBPACK_CFG" 2>/dev/null; then
+  DETAILS+=("P5-3: webpack.config.ts / webpack.config.js 应使用该插件")
 fi
 
 # P5-4

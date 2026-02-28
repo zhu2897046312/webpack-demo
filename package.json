@@ -20,13 +20,22 @@
     "test:check:7:node": "node scripts/check.js 7",
     "test:check:all": "bash scripts/check.sh all",
     "verify:build": "pnpm -r run build",
-    "verify:start": "pnpm --filter @monorepo/app run start"
+    "verify:start": "pnpm --filter @monorepo/app run start",
+    "build:plugin": "tsc -p plugins/typescript-alias-plugin"
   },
-  "keywords": ["monorepo", "webpack", "sdk"],
+  "keywords": [
+    "monorepo",
+    "webpack",
+    "sdk"
+  ],
   "author": "",
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
   }
 }

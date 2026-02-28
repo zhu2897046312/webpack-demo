@@ -3,16 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "webpack --mode production",
-    "start": "webpack serve --mode development"
+    "build": "cross-env TS_NODE_PROJECT=tsconfig.node.json node -r ts-node/register ./node_modules/webpack-cli/bin/cli.js --config webpack.config.ts --mode production",
+    "start": "cross-env TS_NODE_PROJECT=tsconfig.node.json node -r ts-node/register ./node_modules/webpack-cli/bin/cli.js serve --config webpack.config.ts --mode development"
   },
-  "dependencies": {},
   "devDependencies": {
     "@monorepo/sdk": "workspace:*",
+    "cross-env": "^7.0.3",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.0",
     "webpack": "^5.96.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.1.0",
-    "typescript": "^5.7.0",
-    "ts-loader": "^9.5.1"
+    "webpack-dev-server": "^5.1.0"
   }
 }

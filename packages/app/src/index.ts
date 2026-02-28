@@ -27,7 +27,8 @@ if (app) {
         <p>${modeDesc}</p>
         <p class="demo-tip-cmd">切换方式：重启 dev 时设置环境变量<br>
           <code>USE_SOURCE_ALIAS=true</code> → 源码（默认）<br>
-          <code>USE_SOURCE_ALIAS=false</code> → dist 产物
+          <code>USE_SOURCE_ALIAS=false</code> → dist 产物<br>
+          <span class="demo-tip-small">PowerShell: $env:USE_SOURCE_ALIAS=\"false\"; pnpm run start</span>
         </p>
         <p class="demo-tip-small">解决背景问题：长路径、重复打包 → 短路径 + 开发时跳过 SDK 打包，一次转译。</p>
       </div>

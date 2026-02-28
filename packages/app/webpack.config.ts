@@ -1,12 +1,15 @@
-const path = require('path');
-const webpack = require('webpack');
+import path from 'path';
+import webpack from 'webpack';
+
+// 直接引用插件源码（.ts），由 ts-node 在运行 webpack 时解析
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { TypeScriptAliasPlugin } = require('../../plugins/typescript-alias-plugin');
 
 const monorepoRoot = path.resolve(__dirname, '../..');
 const sourceMode = process.env.USE_SOURCE_ALIAS !== 'false';
 const alias = TypeScriptAliasPlugin.getAlias({ rootPath: monorepoRoot, sourceMode });
 
-module.exports = {
+const config: webpack.Configuration & { devServer?: Record<string, unknown> } = {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -43,3 +46,5 @@ module.exports = {
     open: '/index.html',
   },
 };
+
+export default config;

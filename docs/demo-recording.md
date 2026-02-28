@@ -28,7 +28,8 @@ pnpm start
 1. 先构建 SDK 产物：  
    `pnpm --filter @monorepo/sdk run build`
 2. 停止当前 dev server（Ctrl+C），再以 dist 模式启动：  
-   `USE_SOURCE_ALIAS=false pnpm --filter @monorepo/app run start`
+   - **Bash / WSL**：`USE_SOURCE_ALIAS=false pnpm --filter @monorepo/app run start`
+   - **PowerShell**：`$env:USE_SOURCE_ALIAS="false"; pnpm --filter @monorepo/app run start`
 3. 刷新页面，应显示 **「当前: 产物引用 (dist)」**，说明插件已按开关指向 dist
 
 ### 3. 口播/字幕可强调的点
