@@ -1,0 +1,41 @@
+name: Dependency Check
+
+on:
+  pull_request:
+    paths:
+      - 'package.json'
+      - 'packages/**/package.json'
+      - 'pnpm-lock.yaml'
+  workflow_dispatch:
+
+jobs:
+  check-dependencies:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Check lockfile
+        run: pnpm run dep:check:lockfile
+        continue-on-error: true
+      
+      - name: Check overlapping dependencies
+        run: pnpm run dep:check:overlapping
+      
+      - name: Check redundant dependencies
+        run: pnpm run dep:check:redundant
+        continue-on-error: true

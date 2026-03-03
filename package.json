@@ -21,7 +21,12 @@
     "test:check:all": "bash scripts/check.sh all",
     "verify:build": "pnpm -r run build",
     "verify:start": "pnpm --filter @monorepo/app run start",
-    "build:plugin": "tsc -p plugins/typescript-alias-plugin"
+    "build:plugin": "tsc -p plugins/typescript-alias-plugin",
+    "dep:check:redundant": "node scripts/check-redundant-deps.js",
+    "dep:check:overlapping": "node scripts/check-overlapping-deps.js",
+    "dep:check:subpackages": "node scripts/check-subpackages-overlapping.js",
+    "dep:check:lockfile": "node scripts/check-lockfile.js",
+    "dep:check:all": "node scripts/check-redundant-deps.js && node scripts/check-overlapping-deps.js && node scripts/check-subpackages-overlapping.js"
   },
   "keywords": [
     "monorepo",
@@ -34,8 +39,13 @@
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
   },
+  "pnpm": {
+    "overrides": {
+      "typescript": "^5.7.0"
+    }
+  },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.7.0"
   }
 }
